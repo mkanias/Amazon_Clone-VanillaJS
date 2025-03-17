@@ -36,8 +36,25 @@ export function addToCart(productId) {
         })
       }
 
+      addedToCartAnimation(productId);
+      
       saveToStoreage();
-  }
+    }
+    
+let currTimeOuts = {};
+function addedToCartAnimation(productId) {
+    const addedToCartMsg = document.querySelector(`.js-added-to-cart-${productId}`);
+    addedToCartMsg.classList.add('added-to-cart-animation');
+
+    if (currTimeOuts[productId]) {
+      clearTimeout(currTimeOuts[productId]);
+    }
+
+    currTimeOuts[productId] = setTimeout(() => {
+      addedToCartMsg.classList.remove('added-to-cart-animation');
+      delete currTimeOuts[productId];
+    }, 2000);
+}
 
 export function removeFromCart(productId) {
     const newCart = [];
