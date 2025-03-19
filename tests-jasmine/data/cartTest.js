@@ -3,6 +3,8 @@ import { addToCart, cart, loadFromStorage } from '../../data/cart.js';
 describe('Test suite: addToCart', () => {
     const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6'; 
     beforeEach(() => {
+        spyOn(localStorage, 'setItem');
+
         document.querySelector('.js-test-container-2').innerHTML = `
             <select class="js-quantity-selector-${productId1}">
               <option selected value="1">1</option>
@@ -11,9 +13,11 @@ describe('Test suite: addToCart', () => {
         `;
     })
 
-    it('Adds an existing product to the cart', () => {
-        spyOn(localStorage, 'setItem');
+    afterEach(() => {
+        document.querySelector('.js-test-container-2').innerHTML = ``;
+    });
 
+    it('Adds an existing product to the cart', () => {
         spyOn(localStorage, 'getItem').and.callFake(() => {
             return JSON.stringify([{
                 productId: productId1,
@@ -31,8 +35,6 @@ describe('Test suite: addToCart', () => {
     });
 
     it('Adds a new product to the cart', () => {
-        spyOn(localStorage, 'setItem');
-
         spyOn(localStorage, 'getItem').and.callFake(() => {
             return JSON.stringify([]);
         });
