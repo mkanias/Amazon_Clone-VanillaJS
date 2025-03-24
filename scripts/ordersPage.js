@@ -1,14 +1,12 @@
+import { formatDate } from "../data/deliveryOptions.js";
 import { orders } from "../data/orders.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
-
 
 function renderOrderPage() {
     let orderPage = ``;
 
     loadProductsFetch().then(() => {
-        console.log(orders);
-        resetOrders();
         orders.forEach(order => {
             let ordersHTML = ``;
             let productsHTML = ``;
@@ -19,7 +17,7 @@ function renderOrderPage() {
                     <div class="order-header-left-section">
                     <div class="order-date">
                         <div class="order-header-label">Order Placed:</div>
-                        <div>${order.orderTime}</div>
+                        <div>${formatDate(order.orderTime)}</div>
                     </div>
                     <div class="order-total">
                         <div class="order-header-label">Total:</div>
@@ -51,7 +49,7 @@ function renderOrderPage() {
                         ${product.name}
                         </div>
                         <div class="product-delivery-date">
-                        Arriving on: ${orderProduct.estimatedDeliveryTime}
+                        Arriving on: ${formatDate(orderProduct.estimatedDeliveryTime)}
                         </div>
                         <div class="product-quantity">
                         Quantity: ${orderProduct.quantity}
@@ -77,8 +75,11 @@ function renderOrderPage() {
 
         });
         
-        orderPage ? document.querySelector('.js-orders-grid')
-            .innerHTML = orderPage : null;
+        const pageHTML = orderPage ? document.querySelector('.js-orders-grid') : null;
+
+        if (pageHTML) {
+            pageHTML.innerHTML = orderPage;}
+
 
     });
     
@@ -86,7 +87,3 @@ function renderOrderPage() {
 
 renderOrderPage();
 
-export function resetOrders() {
-    console.log('orders deleted')
-    localStorage.setItem('orders', JSON.stringify([]));
-}

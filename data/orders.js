@@ -1,7 +1,8 @@
 export const orders = JSON.parse(localStorage.getItem('orders')) || [];
 
 export function addOrder(order) {
-    orders.unshift(order);
+    orders.length = 0;
+    orders.push(order);
     saveToStoreage();
 }
 

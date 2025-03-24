@@ -53,3 +53,7 @@ function isWeekend(deliveryDate) {
     const day = deliveryDate.format('dddd');
     return day === 'Saturday' || day === 'Sunday';
 }
+
+export function formatDate(dateUnformatted) {
+    return dayjs(dateUnformatted).format('MMMM D');
+}
