@@ -3,11 +3,12 @@ import { getProduct, loadProductsFetch } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
 
-
 function renderOrderPage() {
     let orderPage = ``;
 
     loadProductsFetch().then(() => {
+        console.log(orders);
+        resetOrders();
         orders.forEach(order => {
             let ordersHTML = ``;
             let productsHTML = ``;
@@ -69,20 +70,23 @@ function renderOrderPage() {
                         </a>
                     </div>
                 </div>
-                `
-                
-                
+                `     
             });
-            
+
             orderPage += ordersHTML + productsHTML;
 
         });
         
-        document.querySelector('.js-orders-grid')
-        .innerHTML = orderPage;
+        orderPage ? document.querySelector('.js-orders-grid')
+            .innerHTML = orderPage : null;
 
     });
     
 }
 
 renderOrderPage();
+
+export function resetOrders() {
+    console.log('orders deleted')
+    localStorage.setItem('orders', JSON.stringify([]));
+}
