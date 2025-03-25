@@ -9,3 +9,7 @@ export function addOrder(order) {
 function saveToStoreage() {
     localStorage.setItem('orders', JSON.stringify(orders));
 }
+
+export function findOrder(orderId) {
+    return orders.find(order => order.id === orderId) || null;
+}
